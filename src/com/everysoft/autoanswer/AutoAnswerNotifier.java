@@ -42,6 +42,25 @@ public class AutoAnswerNotifier {
 
 	public void updateNotification() {
 		if (mSharedPreferences.getBoolean("enabled", false)) {
+
+      // Check headset status
+      BluetoothHeadset bh = null;
+      if (mSharedPreferences.getBoolean("headset_only", false)) {
+        bh = new BluetoothHeadset(mContext, null);
+        if (bh != null) {
+          if (bh.getState() != BluetoothHeadset.STATE_CONNECTED) {
+            bh.close();
+            this.disableNotification();
+            return;
+          }
+          bh.close();
+          this.enableNotification();
+          return;
+        }
+        this.disableNotification();
+        return;
+      }
+
 			this.enableNotification();
 		}
 		else {
