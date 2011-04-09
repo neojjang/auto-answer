@@ -18,6 +18,7 @@
         <receiver android:name=".AutoAnswerBootReceiver" android:enabled="true">
         	<intent-filter>
         		<action android:name="android.intent.action.BOOT_COMPLETED" />
+        		<action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
         	</intent-filter>
         </receiver>
         <service android:name="AutoAnswerIntentService" />

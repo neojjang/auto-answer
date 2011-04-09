@@ -41,33 +41,25 @@ public class AutoAnswerNotifier {
 	}
 
 	public void updateNotification() {
-		if (mSharedPreferences.getBoolean("enabled", false)) {
+		if (!mSharedPreferences.getBoolean("enabled", false)) {
+			this.disableNotification();
+			return;
+		}
+		
+		String notificationEnabled =
+			mSharedPreferences.getString("notification_enabled", "always");
 
-      // Check headset status
-      BluetoothHeadset bh = null;
-      if (mSharedPreferences.getBoolean("headset_only", false)) {
-        bh = new BluetoothHeadset(mContext, null);
-        if (bh != null) {
-          if (bh.getState() != BluetoothHeadset.STATE_CONNECTED) {
-            bh.close();
-            this.disableNotification();
-            return;
-          }
-          bh.close();
-          this.enableNotification();
-          return;
-        }
-        this.disableNotification();
-        return;
-      }
-
+		if (notificationEnabled.equals("always") 
+				|| (notificationEnabled.equals("when_active") 
+						&& (!mSharedPreferences.getBoolean("headset_only", false)
+								|| isBluetoothHeadsetConnected()))) {
 			this.enableNotification();
 		}
 		else {
 			this.disableNotification();
-		}		
+		}
 	}
-	
+
 	private void enableNotification() {
 		// Intent to call to turn off AutoAnswer
 		Intent notificationIntent = new Intent(mContext, AutoAnswerPreferenceActivity.class);
@@ -82,5 +74,15 @@ public class AutoAnswerNotifier {
 	
 	private void disableNotification() {
 		mNotificationManager.cancel(NOTIFICATION_ID);
-	}	
+	}
+	
+	private boolean isBluetoothHeadsetConnected() {
+		BluetoothHeadset bh = new BluetoothHeadset(mContext, null);
+		if (bh.getState() != BluetoothHeadset.STATE_CONNECTED) {
+			bh.close();
+			return false;
+		}
+		bh.close();
+		return true;
+	}
 }

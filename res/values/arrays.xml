@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string-array name="which_contacts">
+	<string-array name="notification_enabled">
+		<item>Always</item>
+		<item>Only When Active</item>
+		<item>Never</item>
+	</string-array><string-array name="notification_enabled_values">
+		<item>always</item>
+		<item>when_active</item>
+		<item>never</item>
+	</string-array><string-array name="which_contacts">
     	<item>Calls From All Callers</item>
     	<item>Only My Contacts</item>
     	<item>Only Starred</item>
@@ -26,5 +34,7 @@
     	<item>10</item>
     	<item>12</item>
     </string-array>
+	
+	
 
 </resources>

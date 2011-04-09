@@ -44,7 +44,7 @@ public class AutoAnswerPreferenceActivity extends PreferenceActivity implements 
 	}
 	
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (key.equals("enabled") || key.equals("headset_only")) {
+		if (key.matches("enabled|headset_only|notification_enabled")) {
 			mNotifier.updateNotification();
 		}
 	}
